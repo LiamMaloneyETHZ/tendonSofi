@@ -1,0 +1,2 @@
+Recording stopped by user.
+-> Video saved at: /home/srl-slim-tim/ForceTest/ForceTest2/20250806_1416_f0.3Hz_film_test_data.avi
