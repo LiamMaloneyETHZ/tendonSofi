@@ -55,33 +55,17 @@ def main():
     
     # Scientific paper style sizes
     mm = 1 / 25.4
-    fig, axs = plt.subplots(3, 1, figsize=(88*mm, 120*mm), sharex=True)
+    fig, ax = plt.subplots(figsize=(88*mm, 50*mm))
     
-    # We remove the suptitle as it usually isn't in paper figures, 
-    # but you can add it back if you want.
+    # Plot: Commanded vs Measured Velocity
+    ax.plot(time_data, cmd_vel, linestyle='--', color="tab:blue", label='Cmd Vel')
+    ax.plot(time_data, meas_vel, linestyle='-', color="tab:orange", alpha=0.8, label='Meas Vel')
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Velocity")
     
-    # Plot 1: Commanded vs Measured Velocity
-    axs[0].plot(time_data, cmd_vel, linestyle='--', color="tab:blue", label='Cmd Vel')
-    axs[0].plot(time_data, meas_vel, linestyle='-', color="tab:orange", alpha=0.8, label='Meas Vel')
-    axs[0].set_ylabel("Velocity")
-    axs[0].legend(loc="upper center", ncol=2, fancybox=True, bbox_to_anchor=(0.5, 1.35))
-    axs[0].grid(True)
-
-    # Plot 2: Measured Position (Phase Wrapped)
-    axs[1].plot(time_data, meas_pos, linestyle='-', color="tab:green", label='Meas Pos')
-    axs[1].set_ylabel("Pos (Wrapped 0-4095)")
-    axs[1].legend(loc="upper center", ncol=1, fancybox=True, bbox_to_anchor=(0.5, 1.25))
-    axs[1].grid(True)
-
-    # Plot 3: Measured Load (Torque)
-    axs[2].plot(time_data, meas_load, linestyle='-', color="tab:red", label='Meas Load')
-    axs[2].set_ylabel("Load (Torque)")
-    axs[2].set_xlabel("Time (s)")
-    axs[2].legend(loc="upper center", ncol=1, fancybox=True, bbox_to_anchor=(0.5, 1.25))
-    axs[2].grid(True)
-
-    # Adjust layout to prevent legends from overlapping
-    plt.subplots_adjust(hspace=0.5)
+    # Legend underneath the plot
+    ax.legend(loc="upper center", ncol=2, fancybox=True, bbox_to_anchor=(0.5, -0.35))
+    ax.grid(True)
     
     # Save the plot nicely organized in the 'plots' folder
     plots_dir = "plots"
