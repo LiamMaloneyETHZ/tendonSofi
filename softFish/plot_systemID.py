@@ -41,41 +41,49 @@ def main():
 
     # Create the plot figure
     print("Generating plots...")
-    fig, axs = plt.subplots(3, 1, figsize=(10, 10), sharex=True)
-    fig.suptitle(f"System ID Data: {title_info}", fontsize=14)
-
+    
+    # Scientific paper style sizes
+    mm = 1 / 25.4
+    fig, axs = plt.subplots(3, 1, figsize=(88*mm, 120*mm), sharex=True)
+    
+    # We remove the suptitle as it usually isn't in paper figures, 
+    # but you can add it back if you want.
+    
     # Plot 1: Commanded vs Measured Velocity
-    axs[0].plot(time_data, cmd_vel, label="Commanded Vel (raw)", linestyle='--', color='blue')
-    axs[0].plot(time_data, meas_vel, label="Measured Vel (raw)", alpha=0.8, color='cyan')
+    axs[0].plot(time_data, cmd_vel, linestyle='--', color="tab:blue", label='Cmd Vel')
+    axs[0].plot(time_data, meas_vel, linestyle='-', color="tab:orange", alpha=0.8, label='Meas Vel')
     axs[0].set_ylabel("Velocity")
-    axs[0].set_title("Commanded vs Measured Velocity")
-    axs[0].legend(loc="upper right")
+    axs[0].legend(loc="upper center", ncol=2, fancybox=True, bbox_to_anchor=(0.5, 1.35))
     axs[0].grid(True)
 
     # Plot 2: Measured Position
-    axs[1].plot(time_data, meas_pos, label="Measured Pos (raw)", color='orange')
+    axs[1].plot(time_data, meas_pos, linestyle='-', color="tab:green", label='Meas Pos')
     axs[1].set_ylabel("Position")
-    axs[1].set_title("Raw Measured Position")
-    axs[1].legend(loc="upper right")
+    axs[1].legend(loc="upper center", ncol=1, fancybox=True, bbox_to_anchor=(0.5, 1.25))
     axs[1].grid(True)
 
     # Plot 3: Measured Load (Torque)
-    axs[2].plot(time_data, meas_load, label="Measured Load (raw)", color='green')
+    axs[2].plot(time_data, meas_load, linestyle='-', color="tab:red", label='Meas Load')
     axs[2].set_ylabel("Load (Torque)")
     axs[2].set_xlabel("Time (s)")
-    axs[2].set_title("Measured Load / Torque")
-    axs[2].legend(loc="upper right")
+    axs[2].legend(loc="upper center", ncol=1, fancybox=True, bbox_to_anchor=(0.5, 1.25))
     axs[2].grid(True)
 
-    plt.tight_layout()
+    # Adjust layout to prevent legends from overlapping
+    plt.subplots_adjust(hspace=0.5)
     
     # Save the plot nicely organized in the 'plots' folder
     plots_dir = "plots"
     os.makedirs(plots_dir, exist_ok=True)
-    plot_filename = os.path.join(plots_dir, f"plot_{title_info}.png")
     
-    plt.savefig(plot_filename)
-    print(f"Success! Plot saved nicely to: {plot_filename}")
+    plot_filename_png = os.path.join(plots_dir, f"plot_{title_info}.png")
+    plot_filename_pdf = os.path.join(plots_dir, f"plot_{title_info}.pdf")
+    
+    fig.savefig(plot_filename_png, dpi=300, bbox_inches="tight")
+    fig.savefig(plot_filename_pdf, bbox_inches="tight")
+    plt.close(fig)
+    
+    print(f"Success! Plots saved nicely to:\n  - {plot_filename_png}\n  - {plot_filename_pdf}")
 
 if __name__ == "__main__":
     main()
