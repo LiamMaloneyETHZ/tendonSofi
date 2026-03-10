@@ -82,8 +82,13 @@ def main():
         
         # Save collected data
         timestamp_str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        
+        # Ensure data directory exists
+        data_dir = "data"
+        os.makedirs(data_dir, exist_ok=True)
+        
         # Ensure filename contains requested parameters
-        filename = f"sysID_velControl_{desiredFreq}Hz_{duration}s_{timestamp_str}.csv"
+        filename = os.path.join(data_dir, f"sysID_velControl_{desiredFreq}Hz_{duration}s_{timestamp_str}.csv")
         
         print(f"Saving data to {filename}...")
         with open(filename, mode='w', newline='') as file:

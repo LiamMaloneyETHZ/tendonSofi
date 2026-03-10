@@ -38,6 +38,7 @@ Once the experiment finishes (or if you manually interrupt it with `Ctrl+C`), th
 The generated CSV file will have a name formatted like:
 `sysID_velControl_[FREQ]Hz_[DURATION]s_[YYYY-MM-DD_HH-MM-SS].csv`
 *(e.g., `sysID_velControl_2.0Hz_10.0s_2026-03-10_14-30-00.csv`)*
+The files will be saved nicely inside a `data/` directory.
 
 **Data logged in the CSV includes:**
 *   `Time (s)`: Elapsed time since the start of the experiment.
@@ -46,3 +47,15 @@ The generated CSV file will have a name formatted like:
 *   `Measured Pos (raw)`: The actual position read from the motor.
 *   `Measured Vel (raw)`: The actual velocity read from the motor.
 *   `Measured Load (raw)`: The actual load/current read from the motor, which is useful for analyzing tendon tension.
+
+## Visualizing the Data
+
+To automatically plot the results of your experiment, a `plot_systemID.py` script is provided. It reads the generated CSV and creates three subplots: Commanded vs Measured Velocity, Measured Position, and Measured Load (Torque).
+
+Run the plotting script by passing the filename (it will automatically search in the `data/` folder):
+
+```bash
+python plot_systemID.py --file sysID_velControl_2.0Hz_10.0s_2026-03-10_14-30-00.csv
+```
+
+The script will generate a PNG image of the plot and save it nicely organized inside a `plots/` directory.
