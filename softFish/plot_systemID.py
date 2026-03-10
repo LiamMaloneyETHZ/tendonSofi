@@ -42,7 +42,11 @@ def main():
         for row in reader:
             time_data.append(float(row['Time (s)']))
             cmd_vel.append(float(row['Commanded Vel (raw)']))
-            meas_pos.append(float(row['Measured Pos (raw)']))
+            
+            # Phase wrap the position (Dynamixel XL430 is 4096 pulses/rev)
+            raw_pos = float(row['Measured Pos (raw)'])
+            meas_pos.append(raw_pos % 4096)
+            
             meas_vel.append(float(row['Measured Vel (raw)']))
             meas_load.append(float(row['Measured Load (raw)']))
 
@@ -63,9 +67,9 @@ def main():
     axs[0].legend(loc="upper center", ncol=2, fancybox=True, bbox_to_anchor=(0.5, 1.35))
     axs[0].grid(True)
 
-    # Plot 2: Measured Position
+    # Plot 2: Measured Position (Phase Wrapped)
     axs[1].plot(time_data, meas_pos, linestyle='-', color="tab:green", label='Meas Pos')
-    axs[1].set_ylabel("Position")
+    axs[1].set_ylabel("Pos (Wrapped 0-4095)")
     axs[1].legend(loc="upper center", ncol=1, fancybox=True, bbox_to_anchor=(0.5, 1.25))
     axs[1].grid(True)
 
