@@ -3,6 +3,13 @@ import csv
 import os
 import matplotlib.pyplot as plt
 
+# Enable LaTeX for text rendering
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "serif",
+    "font.serif": ["Computer Modern Roman"]
+})
+
 def main():
     parser = argparse.ArgumentParser(description="Plot System ID data from CSV.")
     parser.add_argument("--file", type=str, required=True, help="Name or path of the CSV data file.")
